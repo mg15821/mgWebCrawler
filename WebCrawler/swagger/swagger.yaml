@@ -1,0 +1,70 @@
+swagger: '2.0'
+info:
+  description: This is MG Web Crawler
+  version: 1.0.0
+  title: MG Web Crawler
+host: localhost
+basePath: /v1
+tags:
+  - name: mg-crawler
+    description: MG Web Crawler Crawls the web pages
+schemes:
+  - http
+paths:
+  /crawler:
+    get:
+      tags:
+        - 'mg-crawler'
+      summary: Get the web page tree information upto max depth allowed
+      operationId: getWebPageInformation
+      produces:
+        - application/json
+      parameters:
+        - name: url
+          in: query
+          description: Url of the webpage for getting tree information
+          required: true
+          type: string
+        - name: depth
+          in: query
+          description: Desired depth for crawling
+          required: false
+          type: integer
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/PageTreeInformation'
+        '400':
+          description: Invalid page url
+        '401':
+          description: Unauthorized to use the service
+        '404':
+          description: Page not found
+      security:
+        - basicAuth: []
+securityDefinitions:
+  basicAuth:
+    type: basic
+definitions:
+  PageTreeInformation:
+    type: object
+    properties:
+      url:
+        type: string
+        description: page Url
+      title:
+        type: string
+        description: Page title
+      valid:
+        type: boolean
+        description: Page is valid or not
+      depth:
+        type: integer
+        description: depth of this page with respect to starting page
+      nodes:
+        type: array
+        items:
+          $ref: '#/definitions/PageTreeInformation'

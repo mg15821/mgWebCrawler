@@ -1,0 +1,86 @@
+logging:
+  level:
+    com.mg.WebCrawler: 'info'
+    org.springframework: 'info'
+    org.apache.http: 'info'
+  file:
+    name: 'logs/${spring.application.name}.log'
+app:
+  crawler:
+    default-depth: 4
+    max-depth-allowed: 4
+    time-out: 6000
+    follow-redirects: true
+
+server:
+  contextPath: /${spring.application.name}
+  port: 8800
+
+rest:
+  response:
+    error:
+      debug: true
+
+spring:
+  application:
+    name: 'mg-crawler'
+  jackson:
+    default-property-inclusion: 'always'
+    serialization:
+      write_dates_as_timestamps: false
+      indent_output: false
+  cache:
+    cache-names:
+      - ${spring.application.name}
+    caffeine.spec: 'maximumSize=6000,expireAfterWrite=86400s'
+---
+spring:
+  jackson:
+    serialization.indent_output: true
+  config:
+    activate:
+      on-profile:
+logging:
+  level:
+    com.mg.WebCrawler: 'debug'
+---
+
+logging:
+  pattern:
+    file: '[%d{ISO8601}] [%thread] [%level] [%logger] [serviceName:${spring.application.name}] => %msg%n'
+  level:
+    com.mg.WebCrawler: 'debug'
+spring:
+  config:
+    activate:
+      on-profile:
+---
+
+logging:
+  pattern:
+    file: '[%d{ISO8601}] [%thread] [%level] [%logger] [serviceName:${spring.application.name}] => %msg%n'
+  file:
+    name: 'logs/${spring.application.name}.log'
+
+rest:
+  response:
+    error:
+      debug: false
+spring:
+  config:
+    activate:
+      on-profile:
+---
+
+spring:
+  jackson:
+    serialization.indent_output: true
+  config:
+    activate:
+      on-profile:
+logging:
+  level:
+    com.mg.WebCrawler: 'debug'
+  pattern:
+    console: '[%d{ISO8601}] [%thread] [%level] [%logger] [serviceName:${spring.application.name}] => %msg%n'
+---
