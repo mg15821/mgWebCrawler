@@ -1,6 +1,6 @@
 # mgWebCrawler
 
- # verview:
+ # Overview:
 
 This is deep web crawler which is exposed as REST Service and have basic HTTP authentication.This service will access the URL provided in YAML file and perform deep crawling. All the configuration environment variables are excessed through application.yaml file. Maximum allowed depth for the service is passed through YAML file like other variables and that is used to prevent accidental high depth queries. This crawler will provide the following response fields Url, Valid  - Boolean, tite, lists of child modes, and maximum allowed depth
 		
